@@ -37,11 +37,19 @@ for (let i = 0; i < Math.pow(gridSize, 2); i++) {
   //Set attribute to disable dragging (other methods did not work)
   gridItem.setAttribute('ondragstart', 'return false');
   mainContainer.appendChild(gridItem);
-  //Check if mouse cursor has entered the item area
+  //Color item if mouse cursor has entered the item area
   gridItem.addEventListener('mouseenter', () => {
     //Color the item if the user is in the drawable area
     if (userClickedOnGrid === true) {
       gridItem.style.backgroundColor = 'black';
     }
   });
+  //Color item if user clicks using the mouse
+  gridItem.addEventListener('mouseup', () => {
+    //Color the item if the user is in the drawable area
+    if (userClickedOnGrid === true) {
+      gridItem.style.backgroundColor = 'black';
+    }
+  });
+
 }
