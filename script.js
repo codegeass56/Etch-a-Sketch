@@ -11,4 +11,7 @@ for (let i = 0; i < 256; i++) {
   gridItem.classList.add('grid-item');
   gridItem.textContent = `${i + 1}`;
   mainContainer.appendChild(gridItem);
+  gridItem.addEventListener('mouseenter', () => {
+    gridItem.style.backgroundColor = 'black';
+  });
 }
