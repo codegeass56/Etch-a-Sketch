@@ -18,16 +18,6 @@ document.querySelector('body').appendChild(mainContainer);
 mainContainer.style.width = '640px';
 mainContainer.style.height = '640px';
 
-//Check if user has clicked using the mouse
-mainContainer.addEventListener('mousedown', () => {
-  userClickedOnGrid = true;
-});
-
-//Check if user has released the mouse button
-mainContainer.addEventListener('mouseup', () => {
-  userClickedOnGrid = false;
-});
-
 //Button listener to create grid as per user input
 button.addEventListener('click', () => {
   gridSize = prompt('Grid size? (Between 16 and 100)');
@@ -63,6 +53,12 @@ function createGrid(mainContainer, gridSize) {
     gridItem.setAttribute('ondragstart', 'return false');
     mainContainer.appendChild(gridItem);
 
+    //Color item if mouse button has been clicked
+    gridItem.addEventListener('mousedown', () => {
+      userClickedOnGrid = true;
+      colorGridItem(gridItem);
+    });
+
     //Color item if mouse cursor has entered the item area
     gridItem.addEventListener('mouseenter', () => {
       //Color the item if the user is in the drawable area
@@ -71,12 +67,9 @@ function createGrid(mainContainer, gridSize) {
       }
     });
 
-    //Color item if user clicks using the mouse
+    //Disable coloring when user releases mouse button
     gridItem.addEventListener('mouseup', () => {
-      //Color the item if the user is in the drawable area
-      if (userClickedOnGrid === true) {
-        colorGridItem(gridItem);
-      }
+      userClickedOnGrid = false;
     });
   }
 }
