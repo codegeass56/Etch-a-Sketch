@@ -1,5 +1,5 @@
 # Etch-a-Sketch
-Created using HTML, CSS and JavaScript
+Created using HTML, CSS and JavaScript. Currently, not compatible with mobile devices.
 
 Features:
 1. Draw on the grid in shades. Coloring a square 10 times will fill it.
