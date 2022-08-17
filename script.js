@@ -1,51 +1,73 @@
 //global boolean variable for checking if user clicked on drawing area
 let userClickedOnGrid = false;
+let eraserToolActive = false;
+let gridLinesActive = true;
 let gridSize = 16;
 
 //Create mainContainer
-const mainContainer = document.createElement('div');
-mainContainer.classList.add('main-container');
-mainContainer.style.display = 'flex';
-mainContainer.style.flexDirection = 'column';
-mainContainer.style.justifyContent = 'center';
-mainContainer.style.alignItems = 'center';
-document.querySelector('body').appendChild(mainContainer);
+// const mainContainer = document.createElement('div');
+// mainContainer.classList.add('main-container');
+// mainContainer.style.display = 'flex';
+// mainContainer.style.flexDirection = 'column';
+// mainContainer.style.justifyContent = 'center';
+// mainContainer.style.alignItems = 'center';
+// document.querySelector('body').appendChild(mainContainer);
+
+const mainContainer = document.querySelector('.main-container');
 
 //Create buttons container
-const buttonContainer = document.createElement('div');
-buttonContainer.classList.add('button-container');
-buttonContainer.style.display = 'flex';
-buttonContainer.style.justifyContent = 'space-between';
-buttonContainer.style.width = '640px';
-mainContainer.appendChild(buttonContainer);
+const buttonContainer = document.querySelector('.button-container');
+// buttonContainer.classList.add('button-container');
+// buttonContainer.style.display = 'flex';
+// buttonContainer.style.justifyContent = 'space-between';
+// buttonContainer.style.width = '640px';
+// mainContainer.appendChild(buttonContainer);
 
 //Create button for prompt
-const promptButton = document.createElement('button');
-promptButton.style.height = '40px';
-promptButton.textContent = 'Select Grid Size';
-buttonContainer.appendChild(promptButton);
+// const promptButton = document.createElement('button');
+// promptButton.style.height = '40px';
+// promptButton.textContent = 'Select Grid Size';
+// buttonContainer.appendChild(promptButton);
 
-//Create color picker
-const colorPicker = document.createElement('input');
-colorPicker.setAttribute('type', 'color');
-colorPicker.style.border = '1px solid black'
-colorPicker.style.padding = '0px'
-colorPicker.style.height = '40px';
-colorPicker.style.width = '100px';
-buttonContainer.appendChild(colorPicker);
+// //Create color picker
+// const colorPicker = document.createElement('input');
+// colorPicker.setAttribute('type', 'color');
+// colorPicker.style.border = '1px solid black'
+// colorPicker.style.padding = '0px'
+// colorPicker.style.height = '40px';
+// colorPicker.style.width = '100px';
+// buttonContainer.appendChild(colorPicker);
+
+//Create button for prompt
+const eraserButton = document.querySelector('.eraser-button');
+// eraserButton.style.height = '40px';
+// eraserButton.style.backgroundColor = 'orange';
+// eraserButton.textContent = 'Eraser';
+// eraserButton.style.fontWeight = 'bold';
+// eraserButton.style.fontSize = '25px';
+// eraserButton.style.borderRadius = '15px';
+// buttonContainer.appendChild(eraserButton);
 
 //Create button for clearing grid
-const clearButton = document.createElement('button');
-clearButton.style.height = '40px';
-clearButton.textContent = 'Clear';
-buttonContainer.appendChild(clearButton);
+const clearButton = document.querySelector('.clear-button');
+// clearButton.style.height = '40px';
+// clearButton.textContent = 'Clear';
+// clearButton.style.backgroundColor = '#4CAF50';
+// clearButton.style.fontWeight = 'bold';
+// clearButton.style.fontSize = '20px';
+// clearButton.style.borderRadius = '10px';
+// buttonContainer.appendChild(clearButton);
 
 //Create the main container
 const gridContainer = document.createElement('div');
 gridContainer.classList.add('grid-container');
 gridContainer.style.display = 'flex';
 gridContainer.style.justifyContent = 'center';
-mainContainer.appendChild(gridContainer);
+gridContainer.style.backgroundColor = 'white';
+mainContainer.append(gridContainer);
+
+//Move the grid options to the end
+mainContainer.append(document.querySelector('.grid-options-container'));
 
 //Create the grid container
 const gridItemContainer = document.createElement('div');
@@ -57,25 +79,42 @@ gridContainer.appendChild(gridItemContainer);
 gridItemContainer.style.width = '640px';
 gridItemContainer.style.height = '640px';
 
-//Button listener to create grid as per user input
-promptButton.addEventListener('click', () => {
-  gridSize = prompt('Grid size? (Between 16 and 100)');
-  while (gridSize > 100 || gridSize < 0) {
-    gridSize = prompt('Invalid grid size. Please choose again.');
-  }
-  while (gridItemContainer.firstChild) {
-    gridItemContainer.removeChild(gridItemContainer.firstChild);
-  }
-  createGrid(gridItemContainer, gridSize);
+//Prompt button for user input
+// promptButton.addEventListener('click', () => {
+//   gridSize = prompt('Grid size? (Between 16 and 100)');
+//   while (gridSize > 100 || gridSize < 0) {
+//     gridSize = prompt('Invalid grid size. Please choose again.');
+//   }
+//   clearGrid(gridItemContainer);
+// });
+
+//Clear button
+clearButton.addEventListener('click', () => {
+  clearGrid(gridItemContainer);
 });
 
-//Button listener to create grid as per user input
-clearButton.addEventListener('click', () => {
-  while (gridItemContainer.firstChild) {
-    gridItemContainer.removeChild(gridItemContainer.firstChild);
+//Trigger erasing
+eraserButton.addEventListener('click', () => {
+  if (eraserToolActive) {
+    eraserToolActive = false;
+    eraserButton.classList.remove('eraser-on');
+  } else {
+    eraserToolActive = true;
+    eraserButton.classList.add('eraser-on');
   }
-  createGrid(gridItemContainer, gridSize);
 });
+
+//Toggle grid lines
+document.querySelector('.grid-lines-button')
+  .addEventListener('click', () => {
+    if (gridLinesActive) {
+      gridLinesActive = false;
+      disableGridLines(gridItemContainer);
+    } else {
+      gridLinesActive = true;
+      enableGridLines(gridItemContainer);
+    }
+  })
 
 //Create default 16x16 grid
 createGrid(gridItemContainer, gridSize);
@@ -103,14 +142,22 @@ function createGrid(gridItemContainer, gridSize) {
     //Color item if mouse promptButton has been clicked
     gridItem.addEventListener('mousedown', () => {
       userClickedOnGrid = true;
-      colorGridItem(gridItem);
+      if (eraserToolActive) {
+        eraseGridItem(gridItem);
+      } else {
+        colorGridItem(gridItem);
+      }
     });
 
     //Color item if mouse cursor has entered the item area
     gridItem.addEventListener('mouseenter', () => {
       //Color the item if the user is in the drawable area
       if (userClickedOnGrid === true) {
-        colorGridItem(gridItem);
+        if (eraserToolActive) {
+          eraseGridItem(gridItem);
+        } else {
+          colorGridItem(gridItem);
+        }
       }
     });
 
@@ -118,6 +165,28 @@ function createGrid(gridItemContainer, gridSize) {
     gridItem.addEventListener('mouseup', () => {
       userClickedOnGrid = false;
     });
+  }
+}
+
+function clearGrid(gridItemContainer) {
+  while (gridItemContainer.firstChild) {
+    gridItemContainer.removeChild(gridItemContainer.firstChild);
+  }
+  createGrid(gridItemContainer, gridSize);
+  if (gridLinesActive === false) {
+    disableGridLines(gridItemContainer);
+  }
+}
+
+function disableGridLines(gridItemContainer) {
+  for (let i = 0; i < gridItemContainer.childNodes.length; i++) {
+    gridItemContainer.childNodes[i].style.border = 'none';
+  }
+}
+
+function enableGridLines(gridItemContainer) {
+  for (let i = 0; i < gridItemContainer.childNodes.length; i++) {
+    gridItemContainer.childNodes[i].style.border = '1px solid #ccc';
   }
 }
 
@@ -130,6 +199,20 @@ function colorGridItem(gridItem) {
     let currentAlpha = getAlphaColorValue(currentColor);
     if (currentAlpha < 1) {
       currentAlpha += 0.1;
+      gridItem.style.backgroundColor = `rgba(0, 0, 0, ${currentAlpha})`;
+    }
+  }
+}
+
+//Erase the grid item color
+function eraseGridItem(gridItem) {
+  let currentColor = gridItem.style.backgroundColor;
+  if (currentColor === "") {
+    return;
+  } else {
+    let currentAlpha = getAlphaColorValue(currentColor);
+    if (currentAlpha > 0) {
+      currentAlpha -= 0.1;
       gridItem.style.backgroundColor = `rgba(0, 0, 0, ${currentAlpha})`;
     }
   }

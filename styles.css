@@ -1,0 +1,63 @@
+body {
+  background-color: lightblue;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 640px;
+}
+
+.grid-options-container {
+  display: flex;
+  width: 640px;
+  justify-content: left;
+}
+
+.eraser-button {
+  height: 40px;
+  background-color: rgb(243, 146, 19);
+  font-size: 20px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.eraser-button:hover,
+.eraser-on {
+  background-color: rgb(255, 189, 103);
+}
+
+.clear-button {
+  height: 40px;
+  background-color: #4CAF50;
+  font-size: 20px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.clear-button:hover {
+  background-color: #82c285;
+}
+
+.grid-lines-button {
+  height: 40px;
+  background-color: #0060df;
+  font-size: 18px;
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.grid-lines-button:hover {
+  background-color: #8fb6e9;
+  color: black;
+}
