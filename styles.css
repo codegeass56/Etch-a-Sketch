@@ -20,7 +20,14 @@ body {
 .grid-options-container {
   display: flex;
   width: 640px;
-  justify-content: left;
+  justify-content: space-between;
+}
+
+.grid-size-range-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .eraser-button {
@@ -60,4 +67,14 @@ body {
 .grid-lines-button:hover {
   background-color: #8fb6e9;
   color: black;
+}
+
+.grid-size-range {
+  width: 400px;
+  cursor: pointer;
+}
+
+.current-grid-size-text {
+  font-size: 20px;
+  font-weight: bold;
 }

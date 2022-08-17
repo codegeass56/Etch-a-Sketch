@@ -87,6 +87,13 @@ gridItemContainer.style.height = '640px';
 //   }
 //   clearGrid(gridItemContainer);
 // });
+const gridSizeSlider = document.querySelector('.grid-size-range');
+gridSizeSlider.addEventListener('change', () => {
+  gridSize = gridSizeSlider.value;
+  document.querySelector('.current-grid-size-text').textContent =
+    `Grid Size ${gridSize} x ${gridSize}`;
+  clearGrid(gridItemContainer);
+})
 
 //Clear button
 clearButton.addEventListener('click', () => {
