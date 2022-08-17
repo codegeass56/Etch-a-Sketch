@@ -67,17 +67,7 @@ function createGrid(mainContainer, gridSize) {
     gridItem.addEventListener('mouseenter', () => {
       //Color the item if the user is in the drawable area
       if (userClickedOnGrid === true) {
-        let currentColor = gridItem.style.backgroundColor;
-        if (currentColor === "") {
-          gridItem.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
-        } else {
-          let currentAlpha = getAlphaColorValue(currentColor); //if alpha is zero then color is rgb(0,0,0)
-          if (currentAlpha > 0) {
-            currentAlpha += 0.1;
-            gridItem.style.backgroundColor = `rgba(0, 0, 0, ${currentAlpha})`;
-          }
-        }
-
+        colorGridItem(gridItem);
       }
     });
 
@@ -85,27 +75,35 @@ function createGrid(mainContainer, gridSize) {
     gridItem.addEventListener('mouseup', () => {
       //Color the item if the user is in the drawable area
       if (userClickedOnGrid === true) {
-        let currentColor = gridItem.style.backgroundColor;
-        if (currentColor === "") {
-          gridItem.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
-        } else {
-          let currentAlpha = getAlphaColorValue(currentColor);
-          if (currentAlpha > 0) {
-            currentAlpha += 0.1;
-            gridItem.style.backgroundColor = `rgba(0, 0, 0, ${currentAlpha})`;
-          }
-        }
+        colorGridItem(gridItem);
       }
     });
   }
 }
 
+//Color the grid item
+function colorGridItem(gridItem) {
+  let currentColor = gridItem.style.backgroundColor;
+  if (currentColor === "") {
+    gridItem.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+  } else {
+    let currentAlpha = getAlphaColorValue(currentColor);
+    if (currentAlpha < 1) {
+      currentAlpha += 0.1;
+      gridItem.style.backgroundColor = `rgba(0, 0, 0, ${currentAlpha})`;
+    }
+  }
+}
+
+//Get current alpha value from current rgb or rgba string value
 function getAlphaColorValue(rgbaColor) {
   let values = [];
+  //If color is of the form rgba(x,x,x,x)
   if (rgbaColor.substring(0, 4) === 'rgba') {
     values = rgbaColor.substring(5, rgbaColor.length - 1).split(", ");
   } else {
-    values = rgbaColor.substring(4, rgbaColor.length - 1).split(", ");
+    //If color is of the form rgb(x,x,x) then alpha is 1
+    values = [1];
   }
   return parseFloat(values[values.length - 1]);
 }
