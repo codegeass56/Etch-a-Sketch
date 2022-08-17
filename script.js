@@ -67,7 +67,17 @@ function createGrid(mainContainer, gridSize) {
     gridItem.addEventListener('mouseenter', () => {
       //Color the item if the user is in the drawable area
       if (userClickedOnGrid === true) {
-        gridItem.style.backgroundColor = 'black';
+        let currentColor = gridItem.style.backgroundColor;
+        if (currentColor === "") {
+          gridItem.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+        } else {
+          let currentAlpha = getAlphaColorValue(currentColor); //if alpha is zero then color is rgb(0,0,0)
+          if (currentAlpha > 0) {
+            currentAlpha += 0.1;
+            gridItem.style.backgroundColor = `rgba(0, 0, 0, ${currentAlpha})`;
+          }
+        }
+
       }
     });
 
@@ -75,8 +85,27 @@ function createGrid(mainContainer, gridSize) {
     gridItem.addEventListener('mouseup', () => {
       //Color the item if the user is in the drawable area
       if (userClickedOnGrid === true) {
-        gridItem.style.backgroundColor = 'black';
+        let currentColor = gridItem.style.backgroundColor;
+        if (currentColor === "") {
+          gridItem.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+        } else {
+          let currentAlpha = getAlphaColorValue(currentColor);
+          if (currentAlpha > 0) {
+            currentAlpha += 0.1;
+            gridItem.style.backgroundColor = `rgba(0, 0, 0, ${currentAlpha})`;
+          }
+        }
       }
     });
   }
+}
+
+function getAlphaColorValue(rgbaColor) {
+  let values = [];
+  if (rgbaColor.substring(0, 4) === 'rgba') {
+    values = rgbaColor.substring(5, rgbaColor.length - 1).split(", ");
+  } else {
+    values = rgbaColor.substring(4, rgbaColor.length - 1).split(", ");
+  }
+  return parseFloat(values[values.length - 1]);
 }
