@@ -4,30 +4,19 @@ let eraserToolActive = false;
 let gridLinesActive = true;
 let gridSize = 16;
 
-//Create mainContainer
-// const mainContainer = document.createElement('div');
-// mainContainer.classList.add('main-container');
-// mainContainer.style.display = 'flex';
-// mainContainer.style.flexDirection = 'column';
-// mainContainer.style.justifyContent = 'center';
-// mainContainer.style.alignItems = 'center';
-// document.querySelector('body').appendChild(mainContainer);
-
+//Get main container
 const mainContainer = document.querySelector('.main-container');
 
-//Create buttons container
+//Ensure drawing button is disable when outside the grid
+document.querySelector('body').addEventListener(
+  'mouseup', () => {
+    if (userClickedOnGrid) {
+      userClickedOnGrid = false;
+    }
+  }
+)
+//Get buttons container
 const buttonContainer = document.querySelector('.button-container');
-// buttonContainer.classList.add('button-container');
-// buttonContainer.style.display = 'flex';
-// buttonContainer.style.justifyContent = 'space-between';
-// buttonContainer.style.width = '640px';
-// mainContainer.appendChild(buttonContainer);
-
-//Create button for prompt
-// const promptButton = document.createElement('button');
-// promptButton.style.height = '40px';
-// promptButton.textContent = 'Select Grid Size';
-// buttonContainer.appendChild(promptButton);
 
 // //Create color picker
 // const colorPicker = document.createElement('input');
@@ -40,25 +29,11 @@ const buttonContainer = document.querySelector('.button-container');
 
 //Create button for prompt
 const eraserButton = document.querySelector('.eraser-button');
-// eraserButton.style.height = '40px';
-// eraserButton.style.backgroundColor = 'orange';
-// eraserButton.textContent = 'Eraser';
-// eraserButton.style.fontWeight = 'bold';
-// eraserButton.style.fontSize = '25px';
-// eraserButton.style.borderRadius = '15px';
-// buttonContainer.appendChild(eraserButton);
 
-//Create button for clearing grid
+//get button for clearing grid
 const clearButton = document.querySelector('.clear-button');
-// clearButton.style.height = '40px';
-// clearButton.textContent = 'Clear';
-// clearButton.style.backgroundColor = '#4CAF50';
-// clearButton.style.fontWeight = 'bold';
-// clearButton.style.fontSize = '20px';
-// clearButton.style.borderRadius = '10px';
-// buttonContainer.appendChild(clearButton);
 
-//Create the main container
+//Create the grid container
 const gridContainer = document.createElement('div');
 gridContainer.classList.add('grid-container');
 gridContainer.style.display = 'flex';
@@ -79,14 +54,7 @@ gridContainer.appendChild(gridItemContainer);
 gridItemContainer.style.width = '640px';
 gridItemContainer.style.height = '640px';
 
-//Prompt button for user input
-// promptButton.addEventListener('click', () => {
-//   gridSize = prompt('Grid size? (Between 16 and 100)');
-//   while (gridSize > 100 || gridSize < 0) {
-//     gridSize = prompt('Invalid grid size. Please choose again.');
-//   }
-//   clearGrid(gridItemContainer);
-// });
+//Grid size slider
 const gridSizeSlider = document.querySelector('.grid-size-range');
 gridSizeSlider.addEventListener('change', () => {
   gridSize = gridSizeSlider.value;

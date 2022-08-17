@@ -30,12 +30,19 @@ body {
   align-items: center;
 }
 
-.eraser-button {
+.eraser-button,
+.clear-button,
+.grid-lines-button {
   height: 40px;
-  background-color: rgb(243, 146, 19);
-  font-size: 20px;
+  font-size: 18px;
   border-radius: 10px;
   font-weight: bold;
+  cursor: pointer;
+  box-shadow: 2px 2px black;
+}
+
+.eraser-button {
+  background-color: rgb(243, 146, 19);
 }
 
 .eraser-button:hover,
@@ -44,11 +51,7 @@ body {
 }
 
 .clear-button {
-  height: 40px;
   background-color: #4CAF50;
-  font-size: 20px;
-  border-radius: 10px;
-  font-weight: bold;
 }
 
 .clear-button:hover {
@@ -56,12 +59,8 @@ body {
 }
 
 .grid-lines-button {
-  height: 40px;
   background-color: #0060df;
-  font-size: 18px;
   color: white;
-  border-radius: 10px;
-  font-weight: bold;
 }
 
 .grid-lines-button:hover {
