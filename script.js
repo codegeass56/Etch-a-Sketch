@@ -44,7 +44,7 @@ mainContainer.append(gridContainer);
 //Move the grid options to the end
 mainContainer.append(document.querySelector('.grid-options-container'));
 
-//Create the grid container
+//Create the grid item container
 const gridItemContainer = document.createElement('div');
 gridItemContainer.classList.add('grid-item-container');
 gridItemContainer.style.flexShrink = '0';
